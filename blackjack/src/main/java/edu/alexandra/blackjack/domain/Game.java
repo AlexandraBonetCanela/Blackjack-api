@@ -1,5 +1,6 @@
 package edu.alexandra.blackjack.application.rest.response;
 
+import edu.alexandra.blackjack.domain.Status;
 import lombok.*;
 
 @Getter
@@ -12,4 +13,5 @@ public class GetGameResponse {
 
     private final Long id;
     private final String playerName;
+    private final Status status;
 }
