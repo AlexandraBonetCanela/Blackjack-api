@@ -27,4 +27,9 @@ public class GameServiceImpl implements GameService{
                     return gameRepository.createGame(game);
                 });
     }
+
+    @Override
+    public Mono<Game> getGame(Long id) {
+        return gameRepository.findById(id);
+    }
 }

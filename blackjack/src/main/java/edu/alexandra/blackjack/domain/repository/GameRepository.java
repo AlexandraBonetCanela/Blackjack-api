@@ -6,4 +6,6 @@ import reactor.core.publisher.Mono;
 public interface GameRepository {
 
     Mono<Game> createGame(Game game);
+
+    Mono<Game> findById(Long id);
 }

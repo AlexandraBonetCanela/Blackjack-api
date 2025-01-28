@@ -17,4 +17,9 @@ public class GameRepositoryImpl implements GameRepository {
     public Mono<Game> createGame(Game game) {
         return gameMongoRepository.save(game);
     }
+
+    @Override
+    public Mono<Game> findById(Long id) {
+        return gameMongoRepository.findById(id.toString());
+    }
 }

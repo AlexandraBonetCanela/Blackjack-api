@@ -9,10 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 @Slf4j
@@ -25,11 +22,26 @@ public class GameRESTController {
 
     @PostMapping
     public Mono<ResponseEntity<Game>> createGame(@RequestBody @Valid CreateGameRequest newGame) {
+
         log.info("Creating game with player {}", newGame.getPlayerName());
+
         return gameService.createGame(newGame)
                 .map(createGame -> ResponseEntity.status(HttpStatus.CREATED).body(createGame))
                 .onErrorResume(e -> {
                     log.error("Error creating game {}", e.getMessage());
+                    return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+                });
+    }
+
+    @GetMapping("/{id}")
+    public Mono<ResponseEntity<Game>> getGame(@PathVariable Long id) {
+
+        log.info("Getting game with id {}", id);
+
+        return gameService.getGame(id)
+                .map(game -> ResponseEntity.status(HttpStatus.OK).body(game))
+                .onErrorResume(e -> {
+                    log.error("Error while retrieving game {}", e.getMessage());
                     return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
                 });
     }
