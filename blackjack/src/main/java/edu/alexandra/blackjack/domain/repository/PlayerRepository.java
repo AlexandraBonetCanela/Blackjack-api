@@ -5,5 +5,7 @@ import reactor.core.publisher.Mono;
 
 public interface PlayerRepository {
 
-    Mono<Player> findById();
+    Mono<Player> findByName(String name);
+
+    Mono<Player> save(Player player);
 }

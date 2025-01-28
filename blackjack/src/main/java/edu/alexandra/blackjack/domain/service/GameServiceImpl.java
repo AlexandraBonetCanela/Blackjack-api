@@ -14,13 +14,17 @@ import reactor.core.publisher.Mono;
 public class GameServiceImpl implements GameService{
 
     private final GameRepository gameRepository;
+    private final PlayerService playerService;
 
     @Override
     public Mono<Game> createGame(CreateGameRequest newGame) {
 
-        Game game = Game.builder()
-                .playerName(newGame.getPlayerName())
-                .status(GameStatus.STARTED).build();
-        return gameRepository.createGame(game);
+        return playerService.getOrCreatePlayer(newGame.getPlayerName())
+                .flatMap(player -> {
+                    Game game = Game.builder()
+                            .player(player)
+                            .status(GameStatus.STARTED).build();
+                    return gameRepository.createGame(game);
+                });
     }
 }

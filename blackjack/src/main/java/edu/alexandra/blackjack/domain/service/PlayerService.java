@@ -5,5 +5,5 @@ import reactor.core.publisher.Mono;
 
 public interface PlayerService {
 
-    Mono<Player> getPlayer(Long id);
+    Mono<Player> getOrCreatePlayer(String playerName);
 }
