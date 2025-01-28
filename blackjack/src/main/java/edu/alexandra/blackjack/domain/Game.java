@@ -1,17 +1,18 @@
-package edu.alexandra.blackjack.application.rest.response;
+package edu.alexandra.blackjack.domain;
 
-import edu.alexandra.blackjack.domain.Status;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
+@ToString
 @EqualsAndHashCode
-@Builder
+@SuperBuilder
 @NoArgsConstructor(force = true)
 @AllArgsConstructor
-public class GetGameResponse {
+public class Game {
 
     private final Long id;
-    private final String playerName;
-    private final Status status;
+    private final Player player;
+    private final GameStatus status;
 }

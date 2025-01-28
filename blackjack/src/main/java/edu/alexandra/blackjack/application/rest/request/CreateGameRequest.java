@@ -8,6 +8,6 @@ import lombok.Getter;;
 @AllArgsConstructor
 public final class CreateGameRequest {
 
-    @NotNull
+    @NotNull(message = "Player name is required")
     private final String playerName;
 }
