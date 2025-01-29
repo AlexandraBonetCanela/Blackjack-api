@@ -24,16 +24,17 @@ public class GameServiceImpl implements GameService{
                 .flatMap(player -> {
                     Game game = Game.builder()
                             .player(player)
+                            .moneyBet(newGame.getMoneyBet())
                             .status(GameStatus.STARTED).build();
                     return gameRepository.createGame(game);
                 });
     }
-/*
+
     @Override
     public Mono<Game> getGame(Long id) {
         return gameRepository.findById(id);
     }
-
+/*
     @Override
     public Mono<Game> playGame(PlayGameRequest move) {
         return null;
