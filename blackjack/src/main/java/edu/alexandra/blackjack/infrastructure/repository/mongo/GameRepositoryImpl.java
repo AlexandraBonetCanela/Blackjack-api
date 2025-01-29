@@ -15,11 +15,13 @@ public class GameRepositoryImpl implements GameRepository {
 
     @Override
     public Mono<Game> createGame(Game game) {
-        return gameMongoRepository.save(game);
+        return gameMongoRepository.save(GameEntity.toEntity(game))
+                .map(GameEntity::toDomain);
     }
 
     @Override
     public Mono<Game> findById(Long id) {
-        return gameMongoRepository.findById(id.toString());
+        return gameMongoRepository.findById(id.toString())
+                .map(GameEntity::toDomain);
     }
 }

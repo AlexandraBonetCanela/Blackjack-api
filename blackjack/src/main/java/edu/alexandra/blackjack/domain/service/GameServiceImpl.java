@@ -1,6 +1,7 @@
 package edu.alexandra.blackjack.domain.service;
 
 import edu.alexandra.blackjack.application.rest.request.CreateGameRequest;
+import edu.alexandra.blackjack.application.rest.request.PlayGameRequest;
 import edu.alexandra.blackjack.domain.Game;
 import edu.alexandra.blackjack.domain.GameStatus;
 import edu.alexandra.blackjack.domain.repository.GameRepository;
@@ -27,9 +28,16 @@ public class GameServiceImpl implements GameService{
                     return gameRepository.createGame(game);
                 });
     }
-
+/*
     @Override
     public Mono<Game> getGame(Long id) {
         return gameRepository.findById(id);
     }
+
+    @Override
+    public Mono<Game> playGame(PlayGameRequest move) {
+        return null;
+    }
+
+ */
 }

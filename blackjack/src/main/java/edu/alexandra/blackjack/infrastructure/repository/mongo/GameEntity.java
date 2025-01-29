@@ -8,6 +8,8 @@ import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @ToString
@@ -23,12 +25,17 @@ public class GameEntity {
 
     private Player player;
 
+    private BigDecimal moneyBet;
+
     private GameStatus status;
 
     public static Game toDomain(GameEntity gameEntity) {
         return Game.builder()
-                .id(gameEntity.getId() != null? Long.valueOf(gameEntity.getId()) : null)
+                .id(gameEntity.getId() != null && gameEntity.getId().matches("\\d+")?
+                        Long.valueOf(gameEntity.getId())
+                        : null)
                 .status(gameEntity.getStatus())
+                .moneyBet(gameEntity.getMoneyBet())
                 .player(gameEntity.getPlayer())
                 .build();
     }
@@ -37,6 +44,7 @@ public class GameEntity {
         return GameEntity.builder()
                 .id(game.getId() != null? game.getId().toString() : null)
                 .status(game.getStatus())
+                .moneyBet(game.getMoneyBet())
                 .player(game.getPlayer())
                 .build();
     }
