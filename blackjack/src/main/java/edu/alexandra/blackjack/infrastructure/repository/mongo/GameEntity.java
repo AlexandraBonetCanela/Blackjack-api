@@ -31,8 +31,8 @@ public class GameEntity {
 
     public static Game toDomain(GameEntity gameEntity) {
         return Game.builder()
-                .id(gameEntity.getId() != null && gameEntity.getId().matches("\\d+")?
-                        Long.valueOf(gameEntity.getId())
+                .id(gameEntity.getId() != null?
+                        gameEntity.getId().hashCode() & 0xffffffffL
                         : null)
                 .status(gameEntity.getStatus())
                 .moneyBet(gameEntity.getMoneyBet())
@@ -42,7 +42,7 @@ public class GameEntity {
 
     public static GameEntity toEntity(Game game){
         return GameEntity.builder()
-                .id(game.getId() != null? game.getId().toString() : null)
+                .id(game.getId() != null? new org.bson.types.ObjectId().toString() : null)
                 .status(game.getStatus())
                 .moneyBet(game.getMoneyBet())
                 .player(game.getPlayer())
