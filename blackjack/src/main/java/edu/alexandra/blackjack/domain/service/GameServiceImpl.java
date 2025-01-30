@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Service
 public class GameServiceImpl implements GameService{
@@ -23,6 +25,7 @@ public class GameServiceImpl implements GameService{
         return playerService.getOrCreatePlayer(newGame.getPlayerName())
                 .flatMap(player -> {
                     Game game = Game.builder()
+                            .id(UUID.randomUUID())
                             .player(player)
                             .moneyBet(newGame.getMoneyBet())
                             .status(GameStatus.STARTED).build();
@@ -31,7 +34,7 @@ public class GameServiceImpl implements GameService{
     }
 
     @Override
-    public Mono<Game> getGame(Long id) {
+    public Mono<Game> getGame(UUID id) {
         return gameRepository.findById(id);
     }
 /*

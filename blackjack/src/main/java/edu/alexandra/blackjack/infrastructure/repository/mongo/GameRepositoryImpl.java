@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 
 @Component
 @RequiredArgsConstructor
@@ -20,7 +22,7 @@ public class GameRepositoryImpl implements GameRepository {
     }
 
     @Override
-    public Mono<Game> findById(Long id) {
+    public Mono<Game> findById(UUID id) {
         return gameMongoRepository.findById(id.toString())
                 .map(GameEntity::toDomain);
     }

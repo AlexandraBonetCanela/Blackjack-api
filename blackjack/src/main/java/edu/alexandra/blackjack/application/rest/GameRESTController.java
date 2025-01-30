@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @RestController
@@ -33,9 +35,9 @@ public class GameRESTController {
                     return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
                 });
     }
-/*
+
     @GetMapping("/{id}")
-    public Mono<ResponseEntity<Game>> getGame(@PathVariable Long id) {
+    public Mono<ResponseEntity<Game>> getGame(@PathVariable UUID id) {
 
         log.info("Getting game with id {}", id);
 
@@ -46,7 +48,7 @@ public class GameRESTController {
                     return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
                 });
     }
-
+/*
     @PostMapping("/{id}/play")
     public Mono<ResponseEntity<Game>> playMove(@RequestBody @Valid PlayGameRequest move) {
 

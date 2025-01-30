@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -32,7 +33,7 @@ public class GameEntity {
     public static Game toDomain(GameEntity gameEntity) {
         return Game.builder()
                 .id(gameEntity.getId() != null?
-                        gameEntity.getId().hashCode() & 0xffffffffL
+                        UUID.fromString(gameEntity.getId())
                         : null)
                 .status(gameEntity.getStatus())
                 .moneyBet(gameEntity.getMoneyBet())
@@ -42,7 +43,7 @@ public class GameEntity {
 
     public static GameEntity toEntity(Game game){
         return GameEntity.builder()
-                .id(game.getId() != null? new org.bson.types.ObjectId().toString() : null)
+                .id(game.getId() != null? game.getId().toString() : null)
                 .status(game.getStatus())
                 .moneyBet(game.getMoneyBet())
                 .player(game.getPlayer())

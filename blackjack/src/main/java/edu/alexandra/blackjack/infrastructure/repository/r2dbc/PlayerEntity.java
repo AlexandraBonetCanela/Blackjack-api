@@ -8,6 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -20,13 +21,15 @@ import java.math.BigDecimal;
 public class PlayerEntity {
 
     @Id
-    private Long id;
+    private String id;
     private String name;
     private BigDecimal totalScore;
 
+
+
     public static Player toDomain(PlayerEntity playerEntity) {
         return Player.builder()
-                .id(playerEntity.getId() != null? playerEntity.getId() : null)
+                .id(playerEntity.getId() != null? UUID.fromString(playerEntity.getId()) : null)
                 .name(playerEntity.getName())
                 .totalScore(playerEntity.getTotalScore())
                 .build();
@@ -34,7 +37,7 @@ public class PlayerEntity {
 
     public static PlayerEntity toEntity(Player player){
         return PlayerEntity.builder()
-                .id(player.getId() != null? player.getId() : null)
+                .id(player.getId() != null? player.getId().toString() : null)
                 .name(player.getName())
                 .totalScore(player.getTotalScore())
                 .build();

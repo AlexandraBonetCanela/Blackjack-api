@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Service
@@ -21,6 +22,7 @@ public class PlayerServiceImpl implements PlayerService{
         return playerRepository.findByName(name)
                 .switchIfEmpty(
                         playerRepository.save(Player.builder()
+                                .id(UUID.randomUUID())
                                 .name(name)
                                 .totalScore(BigDecimal.ZERO)
                                 .build()
