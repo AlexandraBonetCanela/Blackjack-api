@@ -1,5 +1,6 @@
 package edu.alexandra.blackjack.domain.service;
 
+import edu.alexandra.blackjack.application.rest.request.ChangePlayerNameRequest;
 import edu.alexandra.blackjack.domain.Player;
 import edu.alexandra.blackjack.domain.repository.PlayerRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,5 +29,10 @@ public class PlayerServiceImpl implements PlayerService{
                                 .build()
                         )
                 );
+    }
+
+    @Override
+    public Mono<Player> changePlayerName(UUID id, ChangePlayerNameRequest changePlayerNameRequest) {
+        return playerRepository.changePlayerName(id, changePlayerNameRequest.getPlayerNewName());
     }
 }

@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 @Component
 @RequiredArgsConstructor
 public class PlayerRepositoryImpl implements PlayerRepository {
@@ -22,5 +24,13 @@ public class PlayerRepositoryImpl implements PlayerRepository {
     public Mono<Player> save(Player player) {
         return playerMySQLRepository.save(PlayerEntity.toEntity(player))
                 .map(PlayerEntity::toDomain);
+    }
+
+    @Override
+    public Mono<Player> changePlayerName(UUID id, String newName) {
+        return playerMySQLRepository.updatePlayerName(id.toString(), newName)
+                .filter(rowsUpdated -> rowsUpdated > 0)  // ✅ Check if update was successful
+                .flatMap(rows -> playerMySQLRepository.findById(id.toString()))  // ✅ Fetch updated player
+                .map(PlayerEntity::toDomain);  // ✅ Convert Entity → Domain Model
     }
 }
