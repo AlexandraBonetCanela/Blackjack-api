@@ -62,4 +62,16 @@ public class GameRESTController {
                 });
     }
 */
+
+    @DeleteMapping("/{id}")
+    public Mono<ResponseEntity<Void>> deleteGame(@PathVariable UUID id) {
+
+        log.info("Deleting game with id {}", id);
+
+        return gameService.deleteGame(id)
+                .flatMap(deleted -> deleted
+                    ? Mono.just(ResponseEntity.noContent().build())
+                    : Mono.just(ResponseEntity.notFound().build()));
+
+    }
 }

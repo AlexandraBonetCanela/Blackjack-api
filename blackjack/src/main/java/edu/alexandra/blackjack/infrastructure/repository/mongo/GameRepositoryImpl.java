@@ -26,4 +26,9 @@ public class GameRepositoryImpl implements GameRepository {
         return gameMongoRepository.findById(id.toString())
                 .map(GameEntity::toDomain);
     }
+
+    @Override
+    public Mono<Boolean> deleteById(UUID id) {
+        return gameMongoRepository.deleteById(id.toString()).then(Mono.just(true));
+    }
 }

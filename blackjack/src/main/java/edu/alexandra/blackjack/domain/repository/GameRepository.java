@@ -10,4 +10,6 @@ public interface GameRepository {
     Mono<Game> createGame(Game game);
 
     Mono<Game> findById(UUID id);
+
+    Mono<Boolean> deleteById(UUID id);
 }

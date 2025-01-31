@@ -44,4 +44,8 @@ public class GameServiceImpl implements GameService{
     }
 
  */
+    @Override
+    public Mono<Boolean> deleteGame(UUID id) {
+        return gameRepository.deleteById(id);
+    }
 }
