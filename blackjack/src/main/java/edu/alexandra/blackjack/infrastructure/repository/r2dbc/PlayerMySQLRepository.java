@@ -12,6 +12,8 @@ import java.util.UUID;
 @Repository
 public interface PlayerMySQLRepository extends R2dbcRepository<PlayerEntity, String> {
 
+    Mono<PlayerEntity> findById(String id);
+
     Mono<PlayerEntity> findByName(String playerName);
 
     Mono<PlayerEntity> save(PlayerEntity playerEntity);

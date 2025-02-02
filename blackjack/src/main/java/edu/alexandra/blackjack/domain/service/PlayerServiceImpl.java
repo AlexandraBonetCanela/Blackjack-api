@@ -21,13 +21,16 @@ public class PlayerServiceImpl implements PlayerService{
     public Mono<Player> getOrCreatePlayer(String name) {
 
         return playerRepository.findByName(name)
+                .flatMap(Mono::just)
                 .switchIfEmpty(
-                        playerRepository.save(Player.builder()
+                        Mono.defer(() -> playerRepository.save(
+                                Player.builder()
                                 .id(UUID.randomUUID())
                                 .name(name)
                                 .totalScore(BigDecimal.ZERO)
                                 .build()
-                        )
+                        ))
+                                .flatMap(savedPlayer -> playerRepository.findById(savedPlayer.getId()))
                 );
     }
 

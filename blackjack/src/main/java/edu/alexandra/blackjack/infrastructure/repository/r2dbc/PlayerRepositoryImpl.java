@@ -15,6 +15,12 @@ public class PlayerRepositoryImpl implements PlayerRepository {
     private final PlayerMySQLRepository playerMySQLRepository;
 
     @Override
+    public Mono<Player> findById(UUID id) {
+        return playerMySQLRepository.findById(id.toString())
+                .map(PlayerEntity::toDomain);
+    }
+
+    @Override
     public Mono<Player> findByName(String name) {
         return playerMySQLRepository.findByName(name)
                 .map(PlayerEntity::toDomain);
