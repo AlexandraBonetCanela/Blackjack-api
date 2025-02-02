@@ -2,6 +2,7 @@ package edu.alexandra.blackjack.domain.service;
 
 import edu.alexandra.blackjack.application.rest.request.CreateGameRequest;
 import edu.alexandra.blackjack.application.rest.request.PlayGameRequest;
+import edu.alexandra.blackjack.domain.Deck;
 import edu.alexandra.blackjack.domain.Game;
 import edu.alexandra.blackjack.domain.GameStatus;
 import edu.alexandra.blackjack.domain.repository.GameRepository;
@@ -27,6 +28,7 @@ public class GameServiceImpl implements GameService{
                     Game game = Game.builder()
                             .id(UUID.randomUUID())
                             .player(player)
+                            .deck(new Deck())
                             .moneyBet(newGame.getMoneyBet())
                             .status(GameStatus.STARTED).build();
                     return gameRepository.createGame(game);

@@ -1,14 +1,13 @@
 package edu.alexandra.blackjack.infrastructure.repository.mongo;
 
-import edu.alexandra.blackjack.domain.Game;
-import edu.alexandra.blackjack.domain.GameStatus;
-import edu.alexandra.blackjack.domain.Player;
+import edu.alexandra.blackjack.domain.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -26,6 +25,12 @@ public class GameEntity {
 
     private Player player;
 
+    private Deck deck;
+
+    private List<Card> playerHand;
+
+    private List<Card> dealerHand;
+
     private BigDecimal moneyBet;
 
     private GameStatus status;
@@ -36,6 +41,9 @@ public class GameEntity {
                         UUID.fromString(gameEntity.getId())
                         : null)
                 .status(gameEntity.getStatus())
+                .deck(gameEntity.getDeck())
+                .dealerHand(gameEntity.getDealerHand())
+                .playerHand(gameEntity.getPlayerHand())
                 .moneyBet(gameEntity.getMoneyBet())
                 .player(gameEntity.getPlayer())
                 .build();
@@ -45,6 +53,9 @@ public class GameEntity {
         return GameEntity.builder()
                 .id(game.getId() != null? game.getId().toString() : null)
                 .status(game.getStatus())
+                .deck(game.getDeck())
+                .dealerHand(game.getDealerHand())
+                .playerHand(game.getPlayerHand())
                 .moneyBet(game.getMoneyBet())
                 .player(game.getPlayer())
                 .build();
