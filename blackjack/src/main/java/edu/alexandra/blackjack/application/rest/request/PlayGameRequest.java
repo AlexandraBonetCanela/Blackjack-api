@@ -11,9 +11,6 @@ import java.util.UUID;
 @AllArgsConstructor
 public final class PlayGameRequest {
 
-    @NotNull(message = "Game ID is required")
-    private final UUID gameId;
-
     @NotNull(message = "Move Type is required")
     private final MoveType moveType;
 }
