@@ -35,6 +35,8 @@ public class GameEntity {
 
     private GameStatus status;
 
+    private GameResult gameResult;
+
     public static Game toDomain(GameEntity gameEntity) {
         return Game.builder()
                 .id(gameEntity.getId() != null?
@@ -46,6 +48,7 @@ public class GameEntity {
                 .playerHand(gameEntity.getPlayerHand())
                 .moneyBet(gameEntity.getMoneyBet())
                 .player(gameEntity.getPlayer())
+                .gameResult(gameEntity.getGameResult())
                 .build();
     }
 
@@ -58,6 +61,7 @@ public class GameEntity {
                 .playerHand(game.getPlayerHand())
                 .moneyBet(game.getMoneyBet())
                 .player(game.getPlayer())
+                .gameResult(game.getGameResult())
                 .build();
     }
 }
