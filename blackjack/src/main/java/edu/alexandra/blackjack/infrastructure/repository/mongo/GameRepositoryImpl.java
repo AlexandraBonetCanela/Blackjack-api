@@ -16,7 +16,7 @@ public class GameRepositoryImpl implements GameRepository {
     private final GameMongoRepository gameMongoRepository;
 
     @Override
-    public Mono<Game> createGame(Game game) {
+    public Mono<Game> save(Game game) {
         return gameMongoRepository.save(GameEntity.toEntity(game))
                 .map(GameEntity::toDomain);
     }

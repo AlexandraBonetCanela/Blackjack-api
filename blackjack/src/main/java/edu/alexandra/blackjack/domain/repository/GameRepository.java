@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public interface GameRepository {
 
-    Mono<Game> createGame(Game game);
+    Mono<Game> save(Game game);
 
     Mono<Game> findById(UUID id);
 
