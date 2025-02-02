@@ -27,7 +27,7 @@ public class Game {
 
     public void dealInitialCards(){
 
-        if(this.deck == null){
+        if (this.deck == null){
             this.deck = new Deck();
         }
 
