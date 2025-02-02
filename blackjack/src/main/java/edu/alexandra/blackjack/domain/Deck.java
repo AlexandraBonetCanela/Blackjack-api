@@ -27,5 +27,7 @@ public class Deck {
         Collections.shuffle(this.cards);
     }
 
-
+    public Card getCard() {
+        return getCards().removeFirst();
+    }
 }

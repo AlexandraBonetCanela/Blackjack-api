@@ -1,6 +1,7 @@
 package edu.alexandra.blackjack.application.rest;
 
 import edu.alexandra.blackjack.application.rest.request.CreateGameRequest;
+import edu.alexandra.blackjack.application.rest.request.PlayGameRequest;
 import edu.alexandra.blackjack.domain.Game;
 import edu.alexandra.blackjack.domain.service.GameService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -60,7 +61,7 @@ public class GameRESTController {
                     return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
                 });
     }
-/*
+
     @PostMapping("/{id}/play")
     public Mono<ResponseEntity<Game>> playMove(@RequestBody @Valid PlayGameRequest move) {
 
@@ -73,7 +74,7 @@ public class GameRESTController {
                     return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
                 });
     }
-*/
+
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete a game by ID")

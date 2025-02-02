@@ -13,7 +13,7 @@ public interface GameService {
 
     Mono<Game> getGame(UUID id);
 
-//    Mono<Game> playGame(PlayGameRequest move);
+    Mono<Game> playGame(PlayGameRequest move);
 
     Mono<Boolean> deleteGame(UUID id);
 }

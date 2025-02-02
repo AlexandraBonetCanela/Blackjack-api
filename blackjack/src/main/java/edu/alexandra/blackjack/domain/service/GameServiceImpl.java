@@ -2,7 +2,6 @@ package edu.alexandra.blackjack.domain.service;
 
 import edu.alexandra.blackjack.application.rest.request.CreateGameRequest;
 import edu.alexandra.blackjack.application.rest.request.PlayGameRequest;
-import edu.alexandra.blackjack.domain.Deck;
 import edu.alexandra.blackjack.domain.Game;
 import edu.alexandra.blackjack.domain.GameStatus;
 import edu.alexandra.blackjack.domain.repository.GameRepository;
@@ -28,9 +27,12 @@ public class GameServiceImpl implements GameService{
                     Game game = Game.builder()
                             .id(UUID.randomUUID())
                             .player(player)
-                            .deck(new Deck())
                             .moneyBet(newGame.getMoneyBet())
-                            .status(GameStatus.STARTED).build();
+                            .status(GameStatus.STARTED)
+                            .build();
+
+                    game.dealInitialCards();
+
                     return gameRepository.createGame(game);
                 });
     }
@@ -39,13 +41,13 @@ public class GameServiceImpl implements GameService{
     public Mono<Game> getGame(UUID id) {
         return gameRepository.findById(id);
     }
-/*
+
     @Override
     public Mono<Game> playGame(PlayGameRequest move) {
         return null;
     }
 
- */
+
     @Override
     public Mono<Boolean> deleteGame(UUID id) {
         return gameRepository.deleteById(id);
