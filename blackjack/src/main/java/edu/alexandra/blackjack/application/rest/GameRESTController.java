@@ -70,7 +70,7 @@ public class GameRESTController {
         return gameService.playGame(move)
                 .map(game -> ResponseEntity.status(HttpStatus.OK).body(game))
                 .onErrorResume(e -> {
-                    log.error("Error while playing move", e.getMessage());
+                    log.error("Error while playing move {}", e.getMessage());
                     return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
                 });
     }
