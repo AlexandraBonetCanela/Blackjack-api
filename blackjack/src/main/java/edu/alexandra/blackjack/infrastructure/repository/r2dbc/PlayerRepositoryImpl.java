@@ -35,8 +35,8 @@ public class PlayerRepositoryImpl implements PlayerRepository {
     @Override
     public Mono<Player> changePlayerName(UUID id, String newName) {
         return playerMySQLRepository.updatePlayerName(id.toString(), newName)
-                .filter(rowsUpdated -> rowsUpdated > 0)  // ✅ Check if update was successful
-                .flatMap(rows -> playerMySQLRepository.findById(id.toString()))  // ✅ Fetch updated player
-                .map(PlayerEntity::toDomain);  // ✅ Convert Entity → Domain Model
+                .filter(rowsUpdated -> rowsUpdated > 0)
+                .flatMap(rows -> playerMySQLRepository.findById(id.toString()))
+                .map(PlayerEntity::toDomain);
     }
 }

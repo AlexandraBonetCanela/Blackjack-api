@@ -3,10 +3,8 @@ package edu.alexandra.blackjack.application.rest;
 import edu.alexandra.blackjack.application.rest.request.CreateGameRequest;
 import edu.alexandra.blackjack.application.rest.request.PlayGameRequest;
 import edu.alexandra.blackjack.application.rest.response.GameResponse;
-import edu.alexandra.blackjack.domain.Game;
 import edu.alexandra.blackjack.domain.service.GameService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -76,10 +74,7 @@ public class GameRESTController {
             @ApiResponse(responseCode = "500", description = "Internal error")
     })
     public Mono<ResponseEntity<GameResponse>> playMove(
-            @Parameter(description = "Move type (HIT or STAND)", required = true,
-                    schema = @Schema(allowableValues = {"HIT", "STAND"}))
             @RequestBody @Valid PlayGameRequest move,
-            @Parameter(description = "Game ID", required = true)
             @PathVariable UUID id) {
 
         log.info("Playing {} in game {}", move.getMoveType(), id);
@@ -106,12 +101,12 @@ public class GameRESTController {
 
         return gameService.deleteGame(id)
                 .flatMap(deleted -> deleted
-                        ? Mono.just(ResponseEntity.noContent().<Void>build()) // ✅ 204 No Content if deleted
-                        : Mono.just(ResponseEntity.notFound().<Void>build()) // ✅ 404 Not Found if game doesn't exist
+                        ? Mono.just(ResponseEntity.noContent().<Void>build())
+                        : Mono.just(ResponseEntity.notFound().<Void>build())
                 )
                 .onErrorResume(e -> {
                     log.error("Error deleting game {}", e.getMessage());
-                    return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build()); // ✅ 500 for errors
+                    return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
                 });
     }
 }

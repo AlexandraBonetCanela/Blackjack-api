@@ -74,9 +74,6 @@ public class Game {
 
     public Mono<Game> executeGameLogic(MoveType move){
 
-        // higher than the dealer's
-        // Max 21
-
         switch (move){
             case MoveType.STAND :
                 stand();
@@ -129,7 +126,7 @@ public class Game {
                 finishGame();
                 return;
             }
-            
+
             if (dealerScore > 21) {
                 gameResult = GameResult.WON;
                 finishGame();
@@ -139,5 +136,6 @@ public class Game {
 
     public void finishGame(){
         status = GameStatus.FINISHED;
+
     }
 }
