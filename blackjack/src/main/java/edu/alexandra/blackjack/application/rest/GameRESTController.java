@@ -39,11 +39,7 @@ public class GameRESTController {
         log.info("Creating game with player {}", newGame.getPlayerName());
 
         return gameService.createGame(newGame)
-                .map(createGame -> ResponseEntity.status(HttpStatus.CREATED).body(createGame))
-                .onErrorResume(e -> {
-                    log.error("Error creating game {}", e.getMessage());
-                    return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
-                });
+                .map(createGame -> ResponseEntity.status(HttpStatus.CREATED).body(createGame));
     }
 
     @GetMapping("/{id}")
@@ -57,7 +53,7 @@ public class GameRESTController {
         log.info("Getting game with id {}", id);
 
         return gameService.getGame(id)
-                .map(game -> ResponseEntity.status(HttpStatus.OK).body(game));
+                .map(game -> ResponseEntity.ok().body(game));
     }
 
     @PostMapping("/{id}/play")
@@ -76,7 +72,7 @@ public class GameRESTController {
         log.info("Playing {} in game {}", move.getMoveType(), id);
 
         return gameService.playGame(id, move)
-                .map(game -> ResponseEntity.status(HttpStatus.OK).body(game));
+                .map(game -> ResponseEntity.ok().body(game));
     }
 
 
@@ -93,12 +89,8 @@ public class GameRESTController {
 
         return gameService.deleteGame(id)
                 .flatMap(deleted -> deleted
-                        ? Mono.just(ResponseEntity.noContent().<Void>build())
-                        : Mono.just(ResponseEntity.notFound().<Void>build())
-                )
-                .onErrorResume(e -> {
-                    log.error("Error deleting game {}", e.getMessage());
-                    return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
-                });
+                        ? Mono.just(ResponseEntity.noContent().build())
+                        : Mono.just(ResponseEntity.notFound().build())
+                );
     }
 }
