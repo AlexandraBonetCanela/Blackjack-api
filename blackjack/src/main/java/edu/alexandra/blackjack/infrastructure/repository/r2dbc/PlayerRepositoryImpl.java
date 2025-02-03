@@ -4,6 +4,7 @@ import edu.alexandra.blackjack.domain.Player;
 import edu.alexandra.blackjack.domain.repository.PlayerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.UUID;
@@ -38,5 +39,10 @@ public class PlayerRepositoryImpl implements PlayerRepository {
                 .filter(rowsUpdated -> rowsUpdated > 0)
                 .flatMap(rows -> playerMySQLRepository.findById(id.toString()))
                 .map(PlayerEntity::toDomain);
+    }
+
+    @Override
+    public Flux<Player> findAllByOrderByTotalScoreDesc() {
+        return playerMySQLRepository.findAllByOrderByTotalScoreDesc();
     }
 }
