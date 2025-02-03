@@ -1,5 +1,7 @@
 package edu.alexandra.blackjack.domain;
 
+import edu.alexandra.blackjack.domain.exception.GameAlreadyFinishedException;
+import edu.alexandra.blackjack.domain.exception.InvalidMoveException;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import reactor.core.publisher.Mono;
@@ -73,6 +75,14 @@ public class Game {
     }
 
     public Mono<Game> executeGameLogic(MoveType move){
+
+        if (status == GameStatus.FINISHED) {
+            return Mono.error(new GameAlreadyFinishedException(id));
+        }
+
+        if (move != MoveType.STAND && move != MoveType.HIT) {
+            return Mono.error(new InvalidMoveException(move.toString()));
+        }
 
         switch (move){
             case MoveType.STAND :

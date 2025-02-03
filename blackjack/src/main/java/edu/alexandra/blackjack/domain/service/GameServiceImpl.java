@@ -4,6 +4,7 @@ import edu.alexandra.blackjack.application.rest.request.CreateGameRequest;
 import edu.alexandra.blackjack.application.rest.request.PlayGameRequest;
 import edu.alexandra.blackjack.application.rest.response.GameResponse;
 import edu.alexandra.blackjack.domain.*;
+import edu.alexandra.blackjack.domain.exception.GameNotFoundException;
 import edu.alexandra.blackjack.domain.repository.GameRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +56,7 @@ public class GameServiceImpl implements GameService{
                     return gameRepository.save(game);
                 })
                 .map(this::toGameResponse)
-                .switchIfEmpty(Mono.error(new RuntimeException("Game not found")));
+                .switchIfEmpty(Mono.error(new GameNotFoundException(id)));
     }
 
     @Override

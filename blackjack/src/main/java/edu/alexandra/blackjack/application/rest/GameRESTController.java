@@ -57,11 +57,7 @@ public class GameRESTController {
         log.info("Getting game with id {}", id);
 
         return gameService.getGame(id)
-                .map(game -> ResponseEntity.status(HttpStatus.OK).body(game))
-                .onErrorResume(e -> {
-                    log.error("Error while retrieving game {}", e.getMessage());
-                    return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
-                });
+                .map(game -> ResponseEntity.status(HttpStatus.OK).body(game));
     }
 
     @PostMapping("/{id}/play")
@@ -80,11 +76,7 @@ public class GameRESTController {
         log.info("Playing {} in game {}", move.getMoveType(), id);
 
         return gameService.playGame(id, move)
-                .map(game -> ResponseEntity.status(HttpStatus.OK).body(game))
-                .onErrorResume(e -> {
-                    log.error("Error while playing move {}", e.getMessage());
-                    return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
-                });
+                .map(game -> ResponseEntity.status(HttpStatus.OK).body(game));
     }
 
 

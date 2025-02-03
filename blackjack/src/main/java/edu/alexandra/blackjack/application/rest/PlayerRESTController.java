@@ -42,11 +42,7 @@ public class PlayerRESTController {
 
         return playerService.changePlayerName(id, newName)
                 .map(changedPlayer -> ResponseEntity.ok().body(changedPlayer))
-                .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()))
-                .onErrorResume(e -> {
-                    log.error("Error updating Player name {}", e.getMessage());
-                    return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
-                });
+                .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
     }
 
 }

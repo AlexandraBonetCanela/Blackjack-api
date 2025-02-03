@@ -2,6 +2,7 @@ package edu.alexandra.blackjack.domain.service;
 
 import edu.alexandra.blackjack.application.rest.request.ChangePlayerNameRequest;
 import edu.alexandra.blackjack.domain.Player;
+import edu.alexandra.blackjack.domain.exception.PlayerNotFoundException;
 import edu.alexandra.blackjack.domain.repository.PlayerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,8 @@ public class PlayerServiceImpl implements PlayerService{
 
     @Override
     public Mono<Player> changePlayerName(UUID id, ChangePlayerNameRequest changePlayerNameRequest) {
-        return playerRepository.changePlayerName(id, changePlayerNameRequest.getPlayerNewName());
+        return playerRepository.changePlayerName(id, changePlayerNameRequest.getPlayerNewName())
+                .switchIfEmpty(Mono.error(new PlayerNotFoundException(id)));
     }
 
     @Override
