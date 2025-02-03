@@ -97,7 +97,7 @@ public class Game {
         } else {
             gameResult = GameResult.DRAW;
         }
-        finishGame();
+        markAsFinished();
     }
 
     public void hit(){
@@ -105,36 +105,40 @@ public class Game {
         playerHand.add(deck.getCard());
 
         int playerScore = getHandScore(playerHand);
+
         if (playerScore == 21 ){
             gameResult = GameResult.WON;
-            finishGame();
+            markAsFinished();
             return;
         }
+
         if (playerScore > 21) {
             gameResult = GameResult.BUST;
-            finishGame();
+            markAsFinished();
             return;
         }
 
         int dealerScore = getHandScore(dealerHand);
+
         if (dealerScore < 17) {
             dealerHand.add(deck.getCard());
             dealerScore = getHandScore(dealerHand);
 
             if (dealerScore == 21) {
                 gameResult = GameResult.LOST;
-                finishGame();
+                markAsFinished();
                 return;
             }
 
             if (dealerScore > 21) {
                 gameResult = GameResult.WON;
-                finishGame();
+                markAsFinished();
             }
         }
     }
 
-    public void finishGame(){
+    public void markAsFinished(){
+
         status = GameStatus.FINISHED;
 
     }

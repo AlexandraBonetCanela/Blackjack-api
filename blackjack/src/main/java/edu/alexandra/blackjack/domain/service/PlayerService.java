@@ -11,4 +11,6 @@ public interface PlayerService {
     Mono<Player> getOrCreatePlayer(String playerName);
 
     Mono<Player> changePlayerName(UUID id, ChangePlayerNameRequest changePlayerNameRequest);
+
+    Mono<Player> savePlayer(Player player);
 }

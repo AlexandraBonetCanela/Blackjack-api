@@ -3,15 +3,14 @@ package edu.alexandra.blackjack.domain.service;
 import edu.alexandra.blackjack.application.rest.request.CreateGameRequest;
 import edu.alexandra.blackjack.application.rest.request.PlayGameRequest;
 import edu.alexandra.blackjack.application.rest.response.GameResponse;
-import edu.alexandra.blackjack.domain.Card;
-import edu.alexandra.blackjack.domain.Game;
-import edu.alexandra.blackjack.domain.GameStatus;
+import edu.alexandra.blackjack.domain.*;
 import edu.alexandra.blackjack.domain.repository.GameRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -49,7 +48,12 @@ public class GameServiceImpl implements GameService{
 
         return gameRepository.findById(id)
                 .flatMap(game -> game.executeGameLogic(move.getMoveType()))
-                .flatMap(gameRepository::save)
+                .flatMap( game -> {
+                    if ( game.getStatus() == GameStatus.FINISHED) {
+                        return finishGame(game);
+                    }
+                    return gameRepository.save(game);
+                })
                 .map(this::toGameResponse)
                 .switchIfEmpty(Mono.error(new RuntimeException("Game not found")));
     }
@@ -57,6 +61,18 @@ public class GameServiceImpl implements GameService{
     @Override
     public Mono<Boolean> deleteGame(UUID id) {
         return gameRepository.deleteById(id);
+    }
+
+    private Mono<Game> finishGame(Game game) {
+        if (game.getGameResult() == GameResult.WON) {
+            Player player = game.getPlayer();
+            player.setTotalScore(player.getTotalScore().add(game.getMoneyBet().multiply(BigDecimal.valueOf(2))));
+
+            return playerService.savePlayer(player)
+                    .then(gameRepository.save(game));
+        }
+
+        return gameRepository.save(game);
     }
 
     private GameResponse toGameResponse(Game game) {

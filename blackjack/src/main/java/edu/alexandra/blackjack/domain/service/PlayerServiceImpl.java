@@ -38,4 +38,9 @@ public class PlayerServiceImpl implements PlayerService{
     public Mono<Player> changePlayerName(UUID id, ChangePlayerNameRequest changePlayerNameRequest) {
         return playerRepository.changePlayerName(id, changePlayerNameRequest.getPlayerNewName());
     }
+
+    @Override
+    public Mono<Player> savePlayer(Player player) {
+        return playerRepository.save(player);
+    }
 }
