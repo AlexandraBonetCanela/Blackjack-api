@@ -14,7 +14,21 @@ Welcome to the **Blackjack API**, a modern **WebFlux-based** REST API designed f
 ---
 
 ## 📖 Documentation
+### 📖 Architecture Overview
 
+```mermaid
+flowchart TD
+    A[Client] -->|REST API| B[Blackjack API]
+    B -->|Handles Requests| C[PlayerRESTController]
+    B -->|Handles Game Actions| D[GameRESTController]
+    B -->|Handles Rankings| E[RankingRESTController]
+    C -->|Manages Players| F[Player Service]
+    D -->|Manages Game Logic| G[Game Service]
+    E -->|Fetches Rankings| H[Ranking Service]
+    F -->|Stores Player Data| I[(MySQL)]
+    G -->|Stores Game Data| J(MongoDB)
+    H -->|Stores Ranking Data| I
+```
 ## To run a project:
 
 Move to the base folder of the project you want to run and:
@@ -40,14 +54,14 @@ mvn spring-boot:run
 ```sh
 http://localhost:8080/swagger-ui.html
 ```
-## Technologies:
+### Technologies:
 - Java 23
 - Maven 3.6.3
 - Spring boot 3.4.1
 - MySQL 9.1.0
 - MongoDB 8.0.3
 
-## Dependencies:
+### Dependencies:
 - Spring Webflux
 - Spring R2DBC
 - Lombok
@@ -56,3 +70,5 @@ http://localhost:8080/swagger-ui.html
 - Mockito
 - JUnit
 - ArchUnit
+
+##
