@@ -13,6 +13,25 @@ Welcome to the **Blackjack API**, a modern **WebFlux-based** REST API designed f
 
 ---
 
+### Technologies:
+- Java 21
+- Maven 3.6.3
+- Spring boot 3.4.1
+- MySQL 9.1.0
+- MongoDB 8.0.3
+
+### Dependencies:
+- Spring Webflux
+- Spring R2DBC
+- Lombok
+- Swagger
+- Spring Reactive MongoDB
+- Mockito
+- JUnit
+- ArchUnit
+
+---
+
 ## 📖 Documentation
 ### 📖 Architecture Overview
 
@@ -54,21 +73,9 @@ mvn spring-boot:run
 ```sh
 http://localhost:8080/swagger-ui.html
 ```
-### Technologies:
-- Java 23
-- Maven 3.6.3
-- Spring boot 3.4.1
-- MySQL 9.1.0
-- MongoDB 8.0.3
 
-### Dependencies:
-- Spring Webflux
-- Spring R2DBC
-- Lombok
-- Swagger
-- Spring Reactive MongoDB
-- Mockito
-- JUnit
-- ArchUnit
+![swagger doc](https://github.com/user-attachments/assets/78a3a721-8387-4607-8d80-e98c5f1687a7)
+
+
 
 ##
