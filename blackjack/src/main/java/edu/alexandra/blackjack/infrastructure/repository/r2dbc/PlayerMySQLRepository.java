@@ -24,7 +24,7 @@ public interface PlayerMySQLRepository extends R2dbcRepository<Player, String> {
 
     @Modifying
     @Query("UPDATE player SET name = :newName WHERE id = :id")
-    Mono<Integer> updatePlayerName(String id, String newName);
+    Mono<Player> updatePlayerName(String id, String newName);
 
     Flux<Player> findAllByOrderByTotalScoreDesc();
 }

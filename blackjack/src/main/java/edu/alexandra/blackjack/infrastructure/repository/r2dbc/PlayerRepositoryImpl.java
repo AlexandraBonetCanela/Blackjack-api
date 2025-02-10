@@ -35,9 +35,7 @@ public class PlayerRepositoryImpl implements PlayerRepository {
 
     @Override
     public Mono<Player> changePlayerName(String id, String newName) {
-        return playerMySQLRepository.updatePlayerName(id, newName)
-                .filter(rowsUpdated -> rowsUpdated > 0)
-                .flatMap(rows -> playerMySQLRepository.findById(id));
+        return playerMySQLRepository.updatePlayerName(id, newName);
     }
 
     @Override
