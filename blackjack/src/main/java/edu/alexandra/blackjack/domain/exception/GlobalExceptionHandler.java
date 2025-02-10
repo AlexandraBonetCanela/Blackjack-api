@@ -3,6 +3,7 @@ package edu.alexandra.blackjack.domain.exception;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import reactor.core.publisher.Mono;
@@ -36,6 +37,11 @@ public class GlobalExceptionHandler {
     public Mono<ResponseEntity<Map<String, String>>> handlePlayerNotFound(PlayerNotFoundException ex) {
         log.error("Player not found {}", ex.getMessage());
         return createErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<String> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        return ResponseEntity.badRequest().body("Invalid request: " + ex.getMessage());
     }
 
     private Mono<ResponseEntity<Map<String, String>>> createErrorResponse(HttpStatus status, String message) {
