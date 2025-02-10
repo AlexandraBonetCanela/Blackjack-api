@@ -37,7 +37,7 @@ public class PlayerRESTController {
             @RequestBody @Valid ChangePlayerNameRequest newName,
             @PathVariable @Valid String id) {
 
-        log.info("Changing Player name {} with id {}", newName, id);
+        log.info("Changing Player name {} with id {}", newName.getPlayerNewName(), id);
 
         return playerService.changePlayerName(id, newName)
                 .map(changedPlayer -> ResponseEntity.ok().body(changedPlayer))
