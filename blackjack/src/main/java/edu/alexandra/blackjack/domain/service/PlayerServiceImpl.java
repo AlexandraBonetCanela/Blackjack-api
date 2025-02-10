@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.util.UUID;
 
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -22,16 +23,16 @@ public class PlayerServiceImpl implements PlayerService{
     public Mono<Player> getOrCreatePlayer(String name) {
 
         return playerRepository.findByName(name)
-                .flatMap(Mono::just)
                 .switchIfEmpty(
-                        Mono.defer(() -> playerRepository.save(
+                        playerRepository.save(
                                 Player.builder()
                                 .id(UUID.randomUUID())
                                 .name(name)
                                 .totalScore(BigDecimal.ZERO)
                                 .build()
-                        ))
-                                .flatMap(savedPlayer -> playerRepository.findById(savedPlayer.getId()))
+                        )
+                                .thenMany(playerRepository.findByName(name).repeat(2))
+                                .next()
                 );
     }
 
