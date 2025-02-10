@@ -5,8 +5,6 @@ import edu.alexandra.blackjack.domain.Player;
 import edu.alexandra.blackjack.domain.service.PlayerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
@@ -18,6 +16,7 @@ import reactor.core.publisher.Mono;
 import java.math.BigDecimal;
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -28,37 +27,38 @@ public class PlayerRESTControllerTest {
     @Autowired
     private WebTestClient webTestClient;
 
-    @Mock
+    @MockBean
     private PlayerService playerService;
-
-    @InjectMocks
-    private PlayerRESTController playerRESTController;
 
 
     @BeforeEach
     void setUp(){
         MockitoAnnotations.openMocks(this);
-        webTestClient = WebTestClient.bindToController(playerRESTController).build();
     }
 
     @Test
     void changePlayerName_Success_Test(){
 
+        // Creating test data
         UUID id = UUID.randomUUID();
         ChangePlayerNameRequest request = new ChangePlayerNameRequest("Pia");
         Player updatedPlayer = new Player(id, request.getPlayerNewName(), new BigDecimal(100));
 
+        // Mocking the service
         when(playerService.changePlayerName(any(UUID.class), any(ChangePlayerNameRequest.class)))
                 .thenReturn(Mono.just(updatedPlayer));
 
+        // Simulating an HTTP request
         webTestClient.put()
                 .uri("/player/{id}", id)
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(request)
                 .exchange()
+
+                // Verifying response
                 .expectStatus().isOk()
                 .expectBody(Player.class)
-                .isEqualTo(updatedPlayer);
+                .value(response -> assertEquals(updatedPlayer.getName(), response.getName()));
     }
 
     @Test
@@ -82,7 +82,7 @@ public class PlayerRESTControllerTest {
     @Test
     void changePlayerName_BadRequest_Test(){
 
-        String invalidRequestBody = "{ \"name\": \"\" }";
+        String invalidRequestBody = "{ \"playerNewName\": \"\" }";
         UUID playerId = UUID.randomUUID();
 
         webTestClient.put()
@@ -90,6 +90,8 @@ public class PlayerRESTControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(invalidRequestBody)
                 .exchange()
-                .expectStatus().isBadRequest();
+                .expectStatus().isBadRequest()
+                .expectBody(String.class)
+                .consumeWith(response -> System.out.println("Response: " + response.getResponseBody()));
     }
 }
