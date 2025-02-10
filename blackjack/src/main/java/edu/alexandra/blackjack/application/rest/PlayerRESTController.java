@@ -35,7 +35,7 @@ public class PlayerRESTController {
     })
     public Mono<ResponseEntity<Player>> changeName(
             @RequestBody @Valid ChangePlayerNameRequest newName,
-            @PathVariable @Valid UUID id) {
+            @PathVariable @Valid String id) {
 
         log.info("Changing Player name {} with id {}", newName, id);
 

@@ -1,10 +1,8 @@
 package edu.alexandra.blackjack.domain.exception;
 
-import java.util.UUID;
-
 public class PlayerNotFoundException extends RuntimeException {
 
-    public PlayerNotFoundException(UUID id) {
+    public PlayerNotFoundException(String id) {
         super("Player with ID: " + id + " not found");
     }
 }

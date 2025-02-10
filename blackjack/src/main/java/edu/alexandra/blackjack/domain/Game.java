@@ -9,7 +9,6 @@ import reactor.core.publisher.Mono;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -20,8 +19,8 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Game {
 
-    private final UUID id;
-    private final Player player;
+    private String id;
+    private Player player;
 
     @Builder.Default
     private Deck deck = new Deck();
@@ -32,7 +31,7 @@ public class Game {
     @Builder.Default
     private List<Card> dealerHand = new ArrayList<>();
 
-    private final BigDecimal moneyBet;
+    private BigDecimal moneyBet;
     private GameStatus status;
     private GameResult gameResult;
 

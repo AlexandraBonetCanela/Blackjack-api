@@ -16,7 +16,7 @@ import java.util.UUID;
 public class RankingResponse {
 
     private final int position;
-    private final UUID playerId;
+    private final String playerId;
     private final String name;
     private final BigDecimal totalScore;
 }

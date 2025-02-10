@@ -4,7 +4,6 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -15,7 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Player {
 
-    private UUID id;
+    private String id;
     private String name;
     private BigDecimal totalScore;
 }

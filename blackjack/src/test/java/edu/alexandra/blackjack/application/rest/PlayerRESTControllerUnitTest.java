@@ -22,7 +22,7 @@ import static org.mockito.Mockito.when;
 
 @WebFluxTest(PlayerRESTController.class)
 @MockBean(PlayerService.class)
-public class PlayerRESTControllerTest {
+public class PlayerRESTControllerUnitTest {
 
     @Autowired
     private WebTestClient webTestClient;
@@ -40,12 +40,12 @@ public class PlayerRESTControllerTest {
     void changePlayerName_Success_Test(){
 
         // Creating test data
-        UUID id = UUID.randomUUID();
+        String id = UUID.randomUUID().toString();
         ChangePlayerNameRequest request = new ChangePlayerNameRequest("Pia");
         Player updatedPlayer = new Player(id, request.getPlayerNewName(), new BigDecimal(100));
 
         // Mocking the service
-        when(playerService.changePlayerName(any(UUID.class), any(ChangePlayerNameRequest.class)))
+        when(playerService.changePlayerName(any(UUID.class).toString(), any(ChangePlayerNameRequest.class)))
                 .thenReturn(Mono.just(updatedPlayer));
 
         // Simulating an HTTP request
@@ -67,7 +67,7 @@ public class PlayerRESTControllerTest {
         UUID id = UUID.randomUUID();
         ChangePlayerNameRequest request = new ChangePlayerNameRequest("Pia");
 
-        when(playerService.changePlayerName(any(UUID.class), any(ChangePlayerNameRequest.class)))
+        when(playerService.changePlayerName(any(UUID.class).toString(), any(ChangePlayerNameRequest.class)))
                 .thenReturn(Mono.empty());
 
         webTestClient.put()

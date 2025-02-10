@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public class GameAlreadyFinishedException extends RuntimeException {
 
-    public GameAlreadyFinishedException(UUID id) {
+    public GameAlreadyFinishedException(String id) {
         super("Game with ID: " + id + " already finished. Play another game");
     }
 }

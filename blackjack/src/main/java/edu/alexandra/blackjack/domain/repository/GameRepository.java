@@ -9,7 +9,7 @@ public interface GameRepository {
 
     Mono<Game> save(Game game);
 
-    Mono<Game> findById(UUID id);
+    Mono<Game> findById(String id);
 
-    Mono<Boolean> deleteById(UUID id);
+    Mono<Boolean> deleteById(String id);
 }

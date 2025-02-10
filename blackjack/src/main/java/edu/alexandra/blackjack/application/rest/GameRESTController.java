@@ -48,7 +48,7 @@ public class GameRESTController {
             @ApiResponse(responseCode = "200", description = "Game retrieved successfully"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public Mono<ResponseEntity<GameResponse>> getGame(@PathVariable UUID id) {
+    public Mono<ResponseEntity<GameResponse>> getGame(@PathVariable String id) {
 
         log.info("Getting game with id {}", id);
 
@@ -67,7 +67,7 @@ public class GameRESTController {
     })
     public Mono<ResponseEntity<GameResponse>> playMove(
             @RequestBody @Valid PlayGameRequest move,
-            @PathVariable UUID id) {
+            @PathVariable String id) {
 
         log.info("Playing {} in game {}", move.getMoveType(), id);
 
@@ -83,7 +83,7 @@ public class GameRESTController {
             @ApiResponse(responseCode = "404", description = "Game not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public Mono<ResponseEntity<Void>> deleteGame(@PathVariable UUID id) {
+    public Mono<ResponseEntity<Void>> deleteGame(@PathVariable String id) {
 
         log.info("Deleting game with id {}", id);
 

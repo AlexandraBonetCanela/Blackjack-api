@@ -10,13 +10,13 @@ import reactor.core.publisher.Mono;
 
 
 @Repository
-public interface PlayerMySQLRepository extends R2dbcRepository<PlayerEntity, String> {
+public interface PlayerMySQLRepository extends R2dbcRepository<Player, String> {
 
-    Mono<PlayerEntity> findById(String id);
+    Mono<Player> findById(String id);
 
-    Mono<PlayerEntity> findByName(String playerName);
+    Mono<Player> findByName(String playerName);
 
-    Mono<PlayerEntity> save(PlayerEntity playerEntity);
+    Mono<Player> save(Player player);
 
     @Modifying
     @Query("UPDATE player SET name = :newName WHERE id = :id")

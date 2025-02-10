@@ -21,23 +21,33 @@ public class PlayerServiceImpl implements PlayerService{
 
     @Override
     public Mono<Player> getOrCreatePlayer(String name) {
-
         return playerRepository.findByName(name)
                 .switchIfEmpty(
-                        playerRepository.save(
-                                Player.builder()
-                                .id(UUID.randomUUID())
-                                .name(name)
-                                .totalScore(BigDecimal.ZERO)
-                                .build()
-                        )
-                                .thenMany(playerRepository.findByName(name).repeat(2))
-                                .next()
-                );
+                        Mono.defer(() -> {
+                            String playerId = UUID.randomUUID().toString();
+                            System.out.println("🆕 Creating new player: " + name + " with ID: " + playerId);
+
+                            return playerRepository.save(
+                                            Player.builder()
+                                                    .name(name)
+                                                    .totalScore(BigDecimal.ZERO)
+                                                    .build()
+                                    )
+                                    .flatMap(savedPlayer -> {
+                                        System.out.println("✅ Player successfully saved: " + savedPlayer);
+
+                                        // Ensure MySQL has committed the new player before returning it
+                                        return playerRepository.findByName(savedPlayer.getName())
+                                                .doOnNext(player -> System.out.println("🔄 Retrieved Player with ID: " + player.getId()));
+                                    });
+                        })
+                )
+                .doOnNext(player -> System.out.println("🔄 Final Player Retrieved: " + player));
     }
 
+
     @Override
-    public Mono<Player> changePlayerName(UUID id, ChangePlayerNameRequest changePlayerNameRequest) {
+    public Mono<Player> changePlayerName(String id, ChangePlayerNameRequest changePlayerNameRequest) {
         return playerRepository.changePlayerName(id, changePlayerNameRequest.getPlayerNewName())
                 .switchIfEmpty(Mono.error(new PlayerNotFoundException(id)));
     }

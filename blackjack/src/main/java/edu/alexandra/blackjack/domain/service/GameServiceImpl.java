@@ -26,26 +26,30 @@ public class GameServiceImpl implements GameService{
     @Override
     public Mono<GameResponse> createGame(CreateGameRequest newGame) {
 
+        Game game = Game.builder()
+                .id(UUID.randomUUID().toString())
+                .moneyBet(newGame.getMoneyBet())
+                .status(GameStatus.STARTED)
+                .build()
+                .dealInitialCards();
+
         return playerService.getOrCreatePlayer(newGame.getPlayerName())
-                .map(player -> Game.builder()
-                            .id(UUID.randomUUID())
-                            .player(player)
-                            .moneyBet(newGame.getMoneyBet())
-                            .status(GameStatus.STARTED)
-                            .build()
-                            .dealInitialCards())
-                .flatMap(gameRepository::save)
+                .flatMap(player -> {
+                    game.setPlayer(player);
+                    return gameRepository.save(game);
+                })
                 .map(this::toGameResponse);
     }
 
+
     @Override
-    public Mono<GameResponse> getGame(UUID id) {
+    public Mono<GameResponse> getGame(String id) {
         return gameRepository.findById(id)
                 .map(this::toGameResponse);
     }
 
     @Override
-    public Mono<GameResponse> playGame(UUID id, PlayGameRequest move) {
+    public Mono<GameResponse> playGame(String id, PlayGameRequest move) {
 
         return gameRepository.findById(id)
                 .flatMap(game -> game.executeGameLogic(move.getMoveType()))
@@ -60,7 +64,7 @@ public class GameServiceImpl implements GameService{
     }
 
     @Override
-    public Mono<Boolean> deleteGame(UUID id) {
+    public Mono<Boolean> deleteGame(String id) {
         return gameRepository.deleteById(id);
     }
 

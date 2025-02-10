@@ -17,18 +17,16 @@ public class GameRepositoryImpl implements GameRepository {
 
     @Override
     public Mono<Game> save(Game game) {
-        return gameMongoRepository.save(GameEntity.toEntity(game))
-                .map(GameEntity::toDomain);
+        return gameMongoRepository.save(game);
     }
 
     @Override
-    public Mono<Game> findById(UUID id) {
-        return gameMongoRepository.findById(id.toString())
-                .map(GameEntity::toDomain);
+    public Mono<Game> findById(String id) {
+        return gameMongoRepository.findById(id);
     }
 
     @Override
-    public Mono<Boolean> deleteById(UUID id) {
-        return gameMongoRepository.deleteById(id.toString()).then(Mono.just(true));
+    public Mono<Boolean> deleteById(String id) {
+        return gameMongoRepository.deleteById(id).then(Mono.just(true));
     }
 }

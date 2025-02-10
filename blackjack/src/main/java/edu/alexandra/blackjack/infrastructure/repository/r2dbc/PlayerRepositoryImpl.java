@@ -7,8 +7,6 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.UUID;
-
 @Component
 @RequiredArgsConstructor
 public class PlayerRepositoryImpl implements PlayerRepository {
@@ -16,29 +14,25 @@ public class PlayerRepositoryImpl implements PlayerRepository {
     private final PlayerMySQLRepository playerMySQLRepository;
 
     @Override
-    public Mono<Player> findById(UUID id) {
-        return playerMySQLRepository.findById(id.toString())
-                .map(PlayerEntity::toDomain);
+    public Mono<Player> findById(String id) {
+        return playerMySQLRepository.findById(id);
     }
 
     @Override
     public Mono<Player> findByName(String name) {
-        return playerMySQLRepository.findByName(name)
-                .map(PlayerEntity::toDomain);
+        return playerMySQLRepository.findByName(name);
     }
 
     @Override
     public Mono<Player> save(Player player) {
-        return playerMySQLRepository.save(PlayerEntity.toEntity(player))
-                .map(PlayerEntity::toDomain);
+        return playerMySQLRepository.save(player);
     }
 
     @Override
-    public Mono<Player> changePlayerName(UUID id, String newName) {
-        return playerMySQLRepository.updatePlayerName(id.toString(), newName)
+    public Mono<Player> changePlayerName(String id, String newName) {
+        return playerMySQLRepository.updatePlayerName(id, newName)
                 .filter(rowsUpdated -> rowsUpdated > 0)
-                .flatMap(rows -> playerMySQLRepository.findById(id.toString()))
-                .map(PlayerEntity::toDomain);
+                .flatMap(rows -> playerMySQLRepository.findById(id));
     }
 
     @Override

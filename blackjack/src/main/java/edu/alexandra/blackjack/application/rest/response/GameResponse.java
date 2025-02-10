@@ -16,7 +16,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class GameResponse {
 
-    private final UUID id;
+    private final String id;
     private final Player player;
     private final List<Card> playerHand;
     private final List<Card> dealerHand;
