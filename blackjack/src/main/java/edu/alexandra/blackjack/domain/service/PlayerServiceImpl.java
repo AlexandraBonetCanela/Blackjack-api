@@ -48,7 +48,7 @@ public class PlayerServiceImpl implements PlayerService{
     @Override
     public Mono<Player> changePlayerName(String id, ChangePlayerNameRequest changePlayerNameRequest) {
         return playerRepository.changePlayerName(id, changePlayerNameRequest.getPlayerNewName())
-                .then(playerRepository.findByName(changePlayerNameRequest.getPlayerNewName()))
+                .then(playerRepository.findById(id))
                 .switchIfEmpty(Mono.error(new PlayerNotFoundException(id)));
     }
 
