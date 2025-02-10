@@ -45,7 +45,7 @@ public class PlayerRESTControllerUnitTest {
         Player updatedPlayer = new Player(id, request.getPlayerNewName(), new BigDecimal(100));
 
         // Mocking the service
-        when(playerService.changePlayerName(any(UUID.class).toString(), any(ChangePlayerNameRequest.class)))
+        when(playerService.changePlayerName(any(String.class), any(ChangePlayerNameRequest.class)))
                 .thenReturn(Mono.just(updatedPlayer));
 
         // Simulating an HTTP request
@@ -64,10 +64,10 @@ public class PlayerRESTControllerUnitTest {
     @Test
     void changePlayerName_NotFound_Test(){
 
-        UUID id = UUID.randomUUID();
+        String id = UUID.randomUUID().toString();
         ChangePlayerNameRequest request = new ChangePlayerNameRequest("Pia");
 
-        when(playerService.changePlayerName(any(UUID.class).toString(), any(ChangePlayerNameRequest.class)))
+        when(playerService.changePlayerName(any(String.class), any(ChangePlayerNameRequest.class)))
                 .thenReturn(Mono.empty());
 
         webTestClient.put()
@@ -83,7 +83,7 @@ public class PlayerRESTControllerUnitTest {
     void changePlayerName_BadRequest_Test(){
 
         String invalidRequestBody = "{ \"playerNewName\": \"\" }";
-        UUID playerId = UUID.randomUUID();
+        String playerId = UUID.randomUUID().toString();
 
         webTestClient.put()
                 .uri("/player/{id}", playerId)
