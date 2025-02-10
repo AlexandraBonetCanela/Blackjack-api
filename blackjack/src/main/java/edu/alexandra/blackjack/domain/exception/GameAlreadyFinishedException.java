@@ -1,6 +1,5 @@
 package edu.alexandra.blackjack.domain.exception;
 
-import java.util.UUID;
 
 public class GameAlreadyFinishedException extends RuntimeException {
 

@@ -24,7 +24,6 @@ public class PlayerServiceImpl implements PlayerService{
                 .switchIfEmpty(
                         Mono.defer(() -> {
                             String playerId = UUID.randomUUID().toString();
-                            System.out.println("🆕 Creating new player: " + name + " with ID: " + playerId);
 
                             return playerRepository.save(
                                             Player.builder()
@@ -36,8 +35,7 @@ public class PlayerServiceImpl implements PlayerService{
                                         System.out.println("✅ Player successfully saved: " + savedPlayer);
 
                                         // Ensure MySQL has committed the new player before returning it
-                                        return playerRepository.findByName(savedPlayer.getName())
-                                                .doOnNext(player -> System.out.println("🔄 Retrieved Player with ID: " + player.getId()));
+                                        return playerRepository.findByName(savedPlayer.getName());
                                     });
                         })
                 )

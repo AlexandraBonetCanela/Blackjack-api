@@ -39,16 +39,13 @@ public class PlayerRESTControllerUnitTest {
     @Test
     void changePlayerName_Success_Test(){
 
-        // Creating test data
         String id = UUID.randomUUID().toString();
         ChangePlayerNameRequest request = new ChangePlayerNameRequest("Pia");
         Player updatedPlayer = new Player(id, request.getPlayerNewName(), new BigDecimal(100));
 
-        // Mocking the service
         when(playerService.changePlayerName(any(String.class), any(ChangePlayerNameRequest.class)))
                 .thenReturn(Mono.just(updatedPlayer));
 
-        // Simulating an HTTP request
         webTestClient.put()
                 .uri("/player/{id}", id)
                 .contentType(MediaType.APPLICATION_JSON)

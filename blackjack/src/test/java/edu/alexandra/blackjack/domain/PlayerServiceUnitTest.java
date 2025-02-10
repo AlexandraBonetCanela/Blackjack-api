@@ -1,9 +1,7 @@
 package edu.alexandra.blackjack.domain;
 
-import edu.alexandra.blackjack.application.rest.PlayerRESTController;
 import edu.alexandra.blackjack.application.rest.request.ChangePlayerNameRequest;
 import edu.alexandra.blackjack.domain.repository.PlayerRepository;
-import edu.alexandra.blackjack.domain.service.PlayerService;
 import edu.alexandra.blackjack.domain.service.PlayerServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -49,13 +47,13 @@ public class PlayerServiceUnitTest {
          ChangePlayerNameRequest request = new ChangePlayerNameRequest("Pia");
          Player updatedPlayer = new Player(playerId, request.getPlayerNewName(), new BigDecimal(1000));
 
-         when(playerRepository.changePlayerName(playerId, request.getPlayerNewName())).thenReturn(Mono.empty()); // ✅ No return needed
+         when(playerRepository.changePlayerName(playerId, request.getPlayerNewName())).thenReturn(Mono.empty());
          when(playerRepository.findById(playerId)).thenReturn(Mono.just(updatedPlayer));
 
          Mono<Player> result = playerService.changePlayerName(playerId, request);
 
          StepVerifier.create(result)
-                 .expectNext(updatedPlayer) // Expect the updated player
+                 .expectNext(updatedPlayer)
                  .verifyComplete();
 
          verify(playerRepository).changePlayerName(playerId, request.getPlayerNewName());
