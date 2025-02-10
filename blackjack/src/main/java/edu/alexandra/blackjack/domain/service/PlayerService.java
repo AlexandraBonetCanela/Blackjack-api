@@ -11,5 +11,5 @@ public interface PlayerService {
 
     Mono<Player> changePlayerName(String id, ChangePlayerNameRequest changePlayerNameRequest);
 
-    Mono<Player> savePlayer(Player player);
+    Mono<Player> updatePlayerScore(Player player);
 }

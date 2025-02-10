@@ -29,6 +29,11 @@ public class PlayerRepositoryImpl implements PlayerRepository {
     }
 
     @Override
+    public Mono<Player> updatePlayerScore(String id, int score) {
+        return playerMySQLRepository.updatePlayerScore(id, score);
+    }
+
+    @Override
     public Mono<Player> changePlayerName(String id, String newName) {
         return playerMySQLRepository.updatePlayerName(id, newName)
                 .filter(rowsUpdated -> rowsUpdated > 0)

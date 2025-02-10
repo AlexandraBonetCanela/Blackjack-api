@@ -4,6 +4,8 @@ import edu.alexandra.blackjack.domain.Player;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.math.BigDecimal;
+
 
 public interface PlayerRepository {
 
@@ -12,6 +14,8 @@ public interface PlayerRepository {
     Mono<Player> findByName(String name);
 
     Mono<Player> save(Player player);
+
+    Mono<Player> updatePlayerScore(String id, int score);
 
     Mono<Player> changePlayerName(String id, String playerNewName);
 

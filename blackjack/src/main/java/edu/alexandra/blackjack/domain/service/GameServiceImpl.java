@@ -73,7 +73,7 @@ public class GameServiceImpl implements GameService{
             Player player = game.getPlayer();
             player.setTotalScore(player.getTotalScore().add(game.getMoneyBet().multiply(BigDecimal.valueOf(2))));
 
-            return playerService.savePlayer(player)
+            return playerService.updatePlayerScore(player)
                     .then(gameRepository.save(game));
         }
 

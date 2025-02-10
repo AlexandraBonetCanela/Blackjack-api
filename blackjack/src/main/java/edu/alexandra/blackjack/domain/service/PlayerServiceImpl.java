@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
-import java.time.Duration;
 import java.util.UUID;
 
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -53,7 +52,7 @@ public class PlayerServiceImpl implements PlayerService{
     }
 
     @Override
-    public Mono<Player> savePlayer(Player player) {
-        return playerRepository.save(player);
+    public Mono<Player> updatePlayerScore(Player player) {
+        return playerRepository.updatePlayerScore(player.getId(), player.getTotalScore().intValue());
     }
 }

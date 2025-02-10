@@ -19,6 +19,10 @@ public interface PlayerMySQLRepository extends R2dbcRepository<Player, String> {
     Mono<Player> save(Player player);
 
     @Modifying
+    @Query("UPDATE player SET total_score = :score WHERE id = :id")
+    Mono<Player> updatePlayerScore(String id, int score);
+
+    @Modifying
     @Query("UPDATE player SET name = :newName WHERE id = :id")
     Mono<Integer> updatePlayerName(String id, String newName);
 
